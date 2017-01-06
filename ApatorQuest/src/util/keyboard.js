@@ -41,11 +41,10 @@ function Keyboard(keyCode) {
           console.log("key.hold: potential bug: input out of bounds: ", period);
           return true;
       }
-      if (key.isDown && key.lastPressed > 0) {
+      if (key.isDown && key.lastPressed > 0)
           key.holdTime = Date.now() - key.lastPressed;
-      } else {
+      else
           key.holdTime = 0;
-      }
 
       return key.holdTime >= period ? true : false;
   }
