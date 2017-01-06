@@ -37,6 +37,20 @@ function mainMenuStateUpdate(dt) {
         mainMenuStageState = mainMenuStageStates.init;
         switchGameState(gameStates.running);
     }
+
+    // TODO: remove after test
+    if (inputManagerLeft.hold(1000)) {
+        console.log("left: ", inputManagerLeft.holdTime);
+    }
+    if (inputManagerUp.hold(1000)) {
+        console.log("up: ", inputManagerUp.holdTime);
+    }
+    if (inputManagerRight.hold(1000)) {
+        console.log("right: ", inputManagerRight.holdTime);
+    }
+    if (inputManagerDown.hold(1000)) {
+        console.log("down: ", inputManagerDown.holdTime);
+    }
 }
 
 function updateMainMenuDynamicObjects(dt) {
