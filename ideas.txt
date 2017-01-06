@@ -1,0 +1,3 @@
+* bug like ic chips for enemies
+* when low on energy player speed slows down until stop (game over)
+* 
