@@ -3,9 +3,9 @@ function PlayerClass() {
     this.position = new PIXI.Point();
     this.velocity = new Vector();
     this.collider = new BoxCollider(this.sprite.width, this.sprite.height);
+    this.tag = "Player";
 
     this.update = function (dt) {
-        console.log('player update');
         if (inputManagerUp.isDown && inputManagerDown.isUp) {
             this.velocity.y = -10;
         }
@@ -30,5 +30,13 @@ function PlayerClass() {
         this.position.y += this.velocity.y;
         this.sprite.position.copy(this.position);
         this.collider.setPosition(this.position);
+    }
+
+    this.onCollision = function(other) {
+        if(other.tag == "Item") {
+
+            //TODO: delete after test
+            console.log("Item collected.")
+        }
     }
 }

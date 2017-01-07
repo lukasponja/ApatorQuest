@@ -1,6 +1,6 @@
-function BoxCollider(width, lenght) {
+function BoxCollider(width, height) {
     this.width = width;
-    this.length = length;
+    this.height = height;
     this.position = new PIXI.Point();
 
     this.setPosition = function (newPosition) {
@@ -9,9 +9,9 @@ function BoxCollider(width, lenght) {
 }
 
 BoxCollider.prototype.checkCollision = function (collider1, collider2) {
-    if (collider1.position.x < collider2.position.x + collider2.width && 
-    collider1.position.x + collider1.width > collider2.position.x &&
-        collider1.position.y < collider2.position.y + collider2.height && 
+    if (collider1.position.x < collider2.position.x + collider2.width &&
+        collider1.position.x + collider1.width > collider2.position.x &&
+        collider1.position.y < collider2.position.y + collider2.height &&
         collider1.height + collider1.position.y > collider2.position.y) {
         return true;
     }
