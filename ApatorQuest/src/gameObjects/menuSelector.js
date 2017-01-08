@@ -1,6 +1,6 @@
 
 function menuSelectorClass() {
-    this.sprite = gameSprites.arrowSprite;
+    this.sprite = new PIXI.Sprite(gameTextures.arrowTexture);
     this.position = new PIXI.Point();
     this.animPositionOffset = 15; //px
     this.movingSpeed = 30; //px per second

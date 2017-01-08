@@ -1,5 +1,5 @@
 function XenoClass() {
-    this.sprite = gameSprites.xenoSprite;
+    this.sprite = new PIXI.Sprite(gameTextures.xenoTexture);
     this.position = new PIXI.Point();
     this.velocity = new Vector();
     this.collider = new BoxCollider(this.sprite.width, this.sprite.height);
@@ -9,5 +9,10 @@ function XenoClass() {
         this.position.copy(newPosition);
         this.sprite.position.copy(newPosition);
         this.collider.setPosition(newPosition);
+    }
+
+     this.onCollision = function(other) {
+        this.sprite.parent.removeChild(this.sprite);
+        this.tag = "Ghost";
     }
 }

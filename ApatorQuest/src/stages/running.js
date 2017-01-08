@@ -38,10 +38,13 @@ function initAllRunningStageObjects() {
     runningStageDynamicObjects.push(player);
     collisionManager.mainCollisionLayer.push(player);
 
-    let xeno = new XenoClass()
-    xeno.setPosition(new PIXI.Point(200,200));
-    runningStage.addChild(xeno.sprite);
-    collisionManager.otherCollisionLayer.push(xeno);
+    //TODO: delete after test
+    for (let i = 0; i < 5; i++) {
+        let xeno = new XenoClass()
+        xeno.setPosition(new PIXI.Point(getRandomInt(50, gameWidth-50), getRandomInt(50, gameHeight-50)));
+        runningStage.addChild(xeno.sprite);
+        collisionManager.otherCollisionLayer.push(xeno);
+    }
 
     console.log('initAllRunningStageObjects');
 }

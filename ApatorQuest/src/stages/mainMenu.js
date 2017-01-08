@@ -66,7 +66,7 @@ function updateMainMenuDynamicObjects(dt) {
 
 function initAllMainMenuObjects() {
     mainMenuStage.removeChildren();
-    var background = gameSprites.menuBackgroundSprite;
+    var background =  new PIXI.Sprite(gameTextures.menuBackgroundTexture);
     mainMenuStage.addChild(background);
     var playText = new PIXI.Text("Play", playTextStyle);
     mainMenuStage.addChild(playText);

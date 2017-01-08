@@ -1,14 +1,14 @@
 var loader = PIXI.loader;
 var isLoadingDone = false;
-var gameSprites = {
-    backgroundSprite: undefined,
-    floorSprite: undefined,
-    xenoSprite: undefined,
-    saftSprite: undefined,
-    spikeSprite: undefined,
-    menuBackgroundSprite: undefined,
-    arrowSprite: undefined,
-    playerSprite: undefined,
+var gameTextures = {
+    backgroundTexture: undefined,
+    floorTexture: undefined,
+    xenoTexture: undefined,
+    saftTexture: undefined,
+    spikeTexture: undefined,
+    menuBackgroundTexture: undefined,
+    arrowTexture: undefined,
+    playerTexture: undefined,
 };
 var textureFrames = {
     floorFrame: new PIXI.Rectangle(2, 2, 62, 33),
@@ -30,15 +30,15 @@ function loadingDone() {
     var atlasTexture = loader.resources[texturesToLoad[1]].texture;
     var menuBackgroundTexture = loader.resources[texturesToLoad[2]].texture;
 
-    gameSprites.backgroundSprite = new PIXI.Sprite(backgroundTexture);
-    gameSprites.menuBackgroundSprite = new PIXI.Sprite(menuBackgroundTexture);
+    gameTextures.backgroundTexture = backgroundTexture;
+    gameTextures.menuBackgroundTexture = menuBackgroundTexture;
 
-    gameSprites.floorSprite = new PIXI.Sprite(getTextureFromFrame(atlasTexture, textureFrames.floorFrame));
-    gameSprites.xenoSprite = new PIXI.Sprite(getTextureFromFrame(atlasTexture, textureFrames.xenoFrame));
-    gameSprites.saftSprite = new PIXI.Sprite(getTextureFromFrame(atlasTexture, textureFrames.saftFrame));
-    gameSprites.spikeSprite = new PIXI.Sprite(getTextureFromFrame(atlasTexture, textureFrames.spikeFrame));
-    gameSprites.arrowSprite = new PIXI.Sprite(getTextureFromFrame(atlasTexture, textureFrames.arrowFrame));
-    gameSprites.playerSprite = new PIXI.Sprite(getTextureFromFrame(atlasTexture, textureFrames.playerFrame));
+    gameTextures.floorTexture = getTextureFromFrame(atlasTexture, textureFrames.floorFrame);
+    gameTextures.xenoTexture = getTextureFromFrame(atlasTexture, textureFrames.xenoFrame);
+    gameTextures.saftTexture = getTextureFromFrame(atlasTexture, textureFrames.saftFrame);
+    gameTextures.spikeTexture = getTextureFromFrame(atlasTexture, textureFrames.spikeFrame);
+    gameTextures.arrowTexture = getTextureFromFrame(atlasTexture, textureFrames.arrowFrame);
+    gameTextures.playerTexture = getTextureFromFrame(atlasTexture, textureFrames.playerFrame);
 
     isLoadingDone = true;
 

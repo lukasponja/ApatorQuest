@@ -1,5 +1,5 @@
 function PlayerClass() {
-    this.sprite = gameSprites.playerSprite;
+    this.sprite = new PIXI.Sprite(gameTextures.playerTexture);
     this.position = new PIXI.Point();
     this.velocity = new Vector();
     this.collider = new BoxCollider(this.sprite.width, this.sprite.height);
