@@ -19,3 +19,7 @@ BoxCollider.prototype.checkCollision = function (collider1, collider2) {
         return false;
     }
 }
+
+BoxCollider.prototype.getCollisionInfo = function(collider1, collider2) {
+    
+}

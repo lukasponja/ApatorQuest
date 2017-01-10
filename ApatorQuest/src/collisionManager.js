@@ -3,8 +3,8 @@ function CollisionManagerClass() {
     this.otherCollisionLayer = [];
 
     this.checkForCollisions = function () {
-        for (let mainObject of this.mainCollisionLayer) {
-            for (let other of this.otherCollisionLayer) {
+        for (var mainObject of this.mainCollisionLayer) {
+            for (var other of this.otherCollisionLayer) {
                 if (other.tag == "Ghost") {
                     this.otherCollisionLayer.splice(this.otherCollisionLayer.indexOf(other), 1);
                 }

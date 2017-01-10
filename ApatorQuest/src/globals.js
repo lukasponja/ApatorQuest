@@ -1,5 +1,6 @@
 var gameWidth = 800;
 var gameHeight = 534;
+var gameGravity = 30;
 
 var gameStates = {
   loading: 0, running:1, paused: 2, gameOver: 3, score: 4, menu: 5 
