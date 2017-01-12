@@ -1,12 +1,27 @@
 function PlayerClass() {
-    this.sprite = new PIXI.Sprite(gameTextures.playerTexture);
+    this.texture = gameTextures.playerTexture;
+    //this.sprite = new PIXI.Sprite(gameTextures.playerTexture);
     this.position = new PIXI.Point();
     this.velocity = new Vector(0, 0);
-    this.collider = new BoxCollider(this.sprite.width, this.sprite.height);
+
     this.tag = "Player";
     this.isGrounded = false;
     this.jumpImpulse = 15;
     this.horizontalSpeed = 350; //pixels per second
+    this.animFrames = [
+        new PIXI.Rectangle(0, 0, 87, 124),
+        new PIXI.Rectangle(87, 0, 87, 124),
+        new PIXI.Rectangle(174, 0, 87, 124),
+        new PIXI.Rectangle(261, 0, 87, 124),
+        new PIXI.Rectangle(348, 0, 87, 124),
+        new PIXI.Rectangle(435, 0, 87, 124),
+    ];
+    this.currentAnimFrame = 0;
+    this.animFps = 6;
+    this.nextFrameTime = 0;
+    this.texture.frame = this.animFrames[this.currentAnimFrame];
+    this.sprite = new PIXI.Sprite(this.texture);
+    this.collider = new BoxCollider(this.sprite.width, this.sprite.height);
 
     this.update = function (dt) {
         this.velocity.x = 0;
@@ -70,6 +85,16 @@ function PlayerClass() {
         this.position.y += this.velocity.y;
         this.sprite.position.copy(this.position);
         this.collider.setPosition(this.position);
+
+        this.texture.frame = this.animFrames[this.currentAnimFrame];
+        this.nextFrameTime += dt;
+        if (this.nextFrameTime >= 1 / this.animFps) {
+            this.nextFrameTime = 0;
+            this.currentAnimFrame += 1;
+            if (this.currentAnimFrame > this.animFrames.length - 1) {
+                this.currentAnimFrame = 0;
+            }
+        }
     }
 
     this.setPosition = function (newPosition) {
@@ -99,7 +124,7 @@ function PlayerClass() {
                 this.velocity.x = 0;
                 this.setPosition(new PIXI.Point(other.position.x - this.collider.width, this.position.y));
             }
-            else if(info.right && !info.bottom && !info.top) {
+            else if (info.right && !info.bottom && !info.top) {
                 this.velocity.x = 0;
                 this.setPosition(new PIXI.Point(other.position.x + other.collider.width, this.position.y));
             }

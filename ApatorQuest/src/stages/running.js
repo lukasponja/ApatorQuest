@@ -6,6 +6,8 @@ var runningStage = new PIXI.Container();
 var runningStageDynamicObjects = [];
 var player = undefined;
 var collisionManager = new CollisionManagerClass();
+var colorMatrix = new PIXI.filters.ColorMatrixFilter();
+var gray = 0;
 
 function runningStateUpdate(dt) {
     if (runningStageState == runningStageStates.init) {

@@ -38,7 +38,7 @@ function loadingDone() {
     gameTextures.saftTexture = getTextureFromFrame(atlasTexture, textureFrames.saftFrame);
     gameTextures.spikeTexture = getTextureFromFrame(atlasTexture, textureFrames.spikeFrame);
     gameTextures.arrowTexture = getTextureFromFrame(atlasTexture, textureFrames.arrowFrame);
-    gameTextures.playerTexture = getTextureFromFrame(atlasTexture, textureFrames.playerFrame);
+    gameTextures.playerTexture = loader.resources[texturesToLoad[3]].texture;
 
     isLoadingDone = true;
 

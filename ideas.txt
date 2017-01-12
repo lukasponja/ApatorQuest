@@ -1,3 +1,5 @@
-* bug like ic chips for enemies
-* when low on energy player speed slows down until stop (game over)
-* 
+*invertovane kontrole kada pokupis telit (ili neka smetnja)
+*olovne baterije
+*na lcd-u da se ispisuju bodovi i ostalo
+*"si ti to nesto smrsao" -> health/2
+*tolic uleti u kadar i promeni cilj igre
