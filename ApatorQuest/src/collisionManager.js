@@ -10,8 +10,8 @@ function CollisionManagerClass() {
                 }
                 else {
                     if (BoxCollider.prototype.checkCollision(mainObject.collider, other.collider)) {
-                        mainObject.onCollision(other);
-                        other.onCollision(mainObject);
+                        mainObject.onCollision(other, BoxCollider.prototype.getCollisionInfo(mainObject.collider, other.collider));
+                        other.onCollision(mainObject, BoxCollider.prototype.getCollisionInfo(mainObject.collider, other.collider));
                     }
                 }
             }

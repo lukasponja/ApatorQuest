@@ -11,7 +11,7 @@ function XenoClass() {
         this.collider.setPosition(newPosition);
     }
 
-     this.onCollision = function(other) {
+     this.onCollision = function(other, info) {
         this.sprite.parent.removeChild(this.sprite);
         this.tag = "Ghost";
     }

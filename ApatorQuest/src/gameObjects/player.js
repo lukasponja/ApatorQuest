@@ -24,19 +24,19 @@ function PlayerClass() {
 
         if (inputManagerLeft.isDown && inputManagerRight.isUp) {
             if (this.isGrounded) {
-                this.velocity.x = -this.horizontalSpeed*dt;
+                this.velocity.x = -this.horizontalSpeed * dt;
             }
             else {
-                this.velocity.x = -this.horizontalSpeed*dt / 2;
+                this.velocity.x = -this.horizontalSpeed * dt / 2;
             }
 
         }
         if (inputManagerRight.isDown && inputManagerLeft.isUp) {
             if (this.isGrounded) {
-                this.velocity.x = this.horizontalSpeed*dt;
+                this.velocity.x = this.horizontalSpeed * dt;
             }
             else {
-                this.velocity.x = this.horizontalSpeed*dt / 2;
+                this.velocity.x = this.horizontalSpeed * dt / 2;
             }
         }
 
@@ -72,15 +72,38 @@ function PlayerClass() {
         this.collider.setPosition(this.position);
     }
 
-    this.onCollision = function (other) {
+    this.setPosition = function (newPosition) {
+        this.position.copy(newPosition);
+        this.sprite.position.copy(newPosition);
+        this.collider.setPosition(newPosition);
+    }
+
+    this.onCollision = function (other, info) {
         if (other.tag == "Item") {
 
             //TODO: devare after test
             console.log("Item collected.")
         }
         else if (other.tag == "Floor") {
-            this.isGrounded = true;
-            this.velocity.y = 0;
+            if (info.top) {
+                this.isGrounded = true;
+                this.velocity.y = 0;
+                this.setPosition(new PIXI.Point(this.position.x, other.position.y - this.collider.height));
+            }
+            else if (info.bottom) {
+                this.velocity.y = 0;
+                this.setPosition(new PIXI.Point(this.position.x, other.position.y + other.collider.height));
+            }
+
+            if (info.left && !info.bottom && !info.top) {
+                this.velocity.x = 0;
+                this.setPosition(new PIXI.Point(other.position.x - this.collider.width, this.position.y));
+            }
+            else if(info.right && !info.bottom && !info.top) {
+                this.velocity.x = 0;
+                this.setPosition(new PIXI.Point(other.position.x + other.collider.width, this.position.y));
+            }
+
         }
     }
 }

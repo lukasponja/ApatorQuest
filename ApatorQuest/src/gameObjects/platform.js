@@ -11,7 +11,7 @@ function PlatformClass() {
         this.collider.setPosition(newPosition);
     }
 
-    this.onCollision = function (other) {
+    this.onCollision = function (other, info) {
 
     }
 }
