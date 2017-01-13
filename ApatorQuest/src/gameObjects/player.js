@@ -17,7 +17,7 @@ function PlayerClass() {
         new PIXI.Rectangle(435, 0, 87, 124),
     ];
     this.currentAnimFrame = 0;
-    this.animFps = 6;
+    this.animFps = 8;
     this.nextFrameTime = 0;
     this.texture.frame = this.animFrames[this.currentAnimFrame];
     this.sprite = new PIXI.Sprite(this.texture);
@@ -25,7 +25,8 @@ function PlayerClass() {
 
     this.update = function (dt) {
         this.velocity.x = 0;
-        if (this.position.y > 400) {
+        if (this.position.y > 367) {
+            this.position.y = 367;
             this.isGrounded = true;
             this.velocity.y = 0;
         }

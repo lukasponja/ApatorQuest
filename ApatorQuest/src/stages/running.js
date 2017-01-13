@@ -39,7 +39,7 @@ function initAllRunningStageObjects() {
     runningStageDynamicObjects = [];
 
     var background = new BackgroundClass();
-    runningStage.addChild(background.sprite);
+    runningStage.addChild(background.container);
     runningStageDynamicObjects.push(background);
 
     player = new PlayerClass();

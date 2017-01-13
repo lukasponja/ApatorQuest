@@ -9,6 +9,8 @@ var gameTextures = {
     menuBackgroundTexture: undefined,
     arrowTexture: undefined,
     playerTexture: undefined,
+    parallaxTexture: undefined,
+    groundTexture: undefined,
 };
 var textureFrames = {
     floorFrame: new PIXI.Rectangle(2, 2, 62, 33),
@@ -16,7 +18,7 @@ var textureFrames = {
     saftFrame: new PIXI.Rectangle(132, 1, 34, 64),
     spikeFrame: new PIXI.Rectangle(168, 1, 66, 52),
     arrowFrame: new PIXI.Rectangle(1, 296, 64, 64),
-    playerFrame: new PIXI.Rectangle(66, 296, 68, 125),
+    groundFrame: new PIXI.Rectangle(2, 362, 241, 44),
 };
 
 function getTextureFromFrame(newTexture, newFrame) {
@@ -38,7 +40,10 @@ function loadingDone() {
     gameTextures.saftTexture = getTextureFromFrame(atlasTexture, textureFrames.saftFrame);
     gameTextures.spikeTexture = getTextureFromFrame(atlasTexture, textureFrames.spikeFrame);
     gameTextures.arrowTexture = getTextureFromFrame(atlasTexture, textureFrames.arrowFrame);
+    gameTextures.groundTexture = getTextureFromFrame(atlasTexture, textureFrames.groundFrame);
+
     gameTextures.playerTexture = loader.resources[texturesToLoad[3]].texture;
+    gameTextures.parallaxTexture = loader.resources[texturesToLoad[4]].texture;
 
     isLoadingDone = true;
 

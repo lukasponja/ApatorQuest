@@ -13,7 +13,8 @@ var texturesToLoad = [
     'assets/gfx/background.png',
     'assets/gfx/objectsAtlas.png',
     'assets/gfx/mainMenuBackground.png',
-    'assets/gfx/player.png'
+    'assets/gfx/player.png',
+    'assets/gfx/parallax.png'
 ];
 
 var gameObjectPositions = {
