@@ -3,3 +3,4 @@
 *na lcd-u da se ispisuju bodovi i ostalo
 *"si ti to nesto smrsao" -> health/2
 *tolic uleti u kadar i promeni cilj igre
+*juri(sprint) za bonusom

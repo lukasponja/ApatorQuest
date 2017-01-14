@@ -6,6 +6,11 @@ function BoxCollider(width, height) {
     this.setPosition = function (newPosition) {
         this.position.copy(newPosition);
     }
+
+    this.setSize = function (width, height) {
+        this.width = width;
+        this.height = height;
+    }
 }
 
 BoxCollider.prototype.checkCollision = function (collider1, collider2) {

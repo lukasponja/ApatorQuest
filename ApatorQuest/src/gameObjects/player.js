@@ -3,87 +3,98 @@ function PlayerClass() {
     //this.sprite = new PIXI.Sprite(gameTextures.playerTexture);
     this.position = new PIXI.Point();
     this.velocity = new Vector(0, 0);
-
     this.tag = "Player";
+
     this.isGrounded = false;
     this.jumpImpulse = 15;
     this.backwardSpeed = 350; //pixels per second
     this.fowardSpeed = 150;
-    this.animFrames = [
+    this.crouchTime = 2;
+    this.crouchTimer = 0;
+
+    this.animRunningFrames = [
         new PIXI.Rectangle(0, 0, 87, 124),
         new PIXI.Rectangle(87, 0, 87, 124),
         new PIXI.Rectangle(174, 0, 87, 124),
         new PIXI.Rectangle(261, 0, 87, 124),
         new PIXI.Rectangle(348, 0, 87, 124),
-        new PIXI.Rectangle(435, 0, 87, 124),
+        new PIXI.Rectangle(435, 0, 87, 124)
     ];
+    this.animJumpFrames = [
+        new PIXI.Rectangle(0, 124, 87, 130),
+        new PIXI.Rectangle(87, 124, 87, 130)
+    ];
+    this.crouchFrame = new PIXI.Rectangle(174, 124, 103, 100);
     this.currentAnimFrame = 0;
     this.animFps = 8;
     this.nextFrameTime = 0;
-    this.texture.frame = this.animFrames[this.currentAnimFrame];
+    this.playerStates = { running: 0, jumping: 1, crouching: 2, dead: 3 };
+    this.playerState = this.playerStates.running;
+
+    this.texture.frame = this.animRunningFrames[this.currentAnimFrame];
     this.sprite = new PIXI.Sprite(this.texture);
     this.collider = new BoxCollider(this.sprite.width, this.sprite.height);
 
     this.update = function (dt) {
         this.velocity.x = 0;
         this.animFps = 8;
+        //check for floor
         if (this.position.y > 367) {
             this.position.y = 367;
             this.isGrounded = true;
+            this.playerState = this.playerStates.running;
             this.velocity.y = 0;
         }
 
+        //jump
         if (inputManagerUp.isDown) {
             if (this.isGrounded) {
                 this.isGrounded = false;
                 this.velocity.y = -this.jumpImpulse;
+                this.playerState = this.playerStates.jumping;
             }
         }
 
+        //coruch
+        if (inputManagerDown.isDown) {
+            if (this.isGrounded) {
+                this.playerState = this.playerStates.crouching;
+                 this.position.y += 24; //crouch sprite is 24px shorter
+            }
+        }
+        else {
+            if(this.playerState == this.playerStates.crouching) {
+                this.playerState = this.playerStates.running;
+                this.position.y -= 24; //crouch sprite is 24px shorter
+            }
+        }
+
+        //backwards
         if (inputManagerLeft.isDown && inputManagerRight.isUp) {
             if (this.isGrounded) {
                 this.velocity.x = -this.backwardSpeed * dt;
             }
             else {
-                this.velocity.x = -(this.backwardSpeed / 2) * dt;
+                this.velocity.x = -(this.backwardSpeed / 4) * dt;
             }
-
         }
+
+        //fowards
         if (inputManagerRight.isDown && inputManagerLeft.isUp) {
             if (this.isGrounded) {
                 this.velocity.x = this.fowardSpeed * dt;
             }
             else {
-                this.velocity.x = (this.fowardSpeed / 2) * dt;
+                this.velocity.x = (this.fowardSpeed / 4) * dt;
             }
             this.animFps = 15;
         }
 
+        //apply gravity
         if (!this.isGrounded) {
             this.velocity.y += gameGravity * dt;
         }
         this.isGrounded = false
-
-
-        /*if (inputManagerUp.isDown && inputManagerDown.isUp) {
-            this.velocity.y = -10;
-        }
-        if (inputManagerDown.isDown && inputManagerUp.isUp) {
-            this.velocity.y = 10;
-        }
-        if (inputManagerUp.isUp && inputManagerDown.isUp) {
-            this.velocity.y = 0;
-        }
-
-        if (inputManagerLeft.isDown && inputManagerRight.isUp) {
-            this.velocity.x = -10;
-        }
-        if (inputManagerRight.isDown && inputManagerLeft.isUp) {
-            this.velocity.x = 10;
-        }
-        if (inputManagerLeft.isUp && inputManagerRight.isUp) {
-            this.velocity.x = 0;
-        }*/
 
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
@@ -91,6 +102,7 @@ function PlayerClass() {
         this.collider.setPosition(this.position);
 
         this.animate(dt);
+        this.collider.setSize(this.sprite.width, this.sprite.height);
     }
 
     this.setPosition = function (newPosition) {
@@ -106,21 +118,22 @@ function PlayerClass() {
             console.log("Item collected.")
         }
         else if (other.tag == "Floor") {
-            if (info.top) {
+            if (info.top && !info.left && !info.right) {
                 this.isGrounded = true;
+                this.playerState = this.playerStates.running;
                 this.velocity.y = 0;
                 this.setPosition(new PIXI.Point(this.position.x, other.position.y - this.collider.height));
             }
-            else if (info.bottom) {
+            else if (info.bottom  && !info.left && !info.right) {
                 this.velocity.y = 0;
                 this.setPosition(new PIXI.Point(this.position.x, other.position.y + other.collider.height));
             }
 
-            if (info.left && !info.bottom && !info.top) {
+            if (info.left /*&& !info.bottom && !info.top*/) {
                 this.velocity.x = 0;
                 this.setPosition(new PIXI.Point(other.position.x - this.collider.width, this.position.y));
             }
-            else if (info.right && !info.bottom && !info.top) {
+            else if (info.right /*&& !info.bottom && !info.top*/) {
                 this.velocity.x = 0;
                 this.setPosition(new PIXI.Point(other.position.x + other.collider.width, this.position.y));
             }
@@ -129,14 +142,29 @@ function PlayerClass() {
     }
 
     this.animate = function (dt) {
-        this.texture.frame = this.animFrames[this.currentAnimFrame];
-        this.nextFrameTime += dt;
-        if (this.nextFrameTime >= 1 / this.animFps) {
-            this.nextFrameTime = 0;
-            this.currentAnimFrame += 1;
-            if (this.currentAnimFrame > this.animFrames.length - 1) {
-                this.currentAnimFrame = 0;
+        if (this.playerState == this.playerStates.running) {
+            this.texture.frame = this.animRunningFrames[this.currentAnimFrame];
+            this.nextFrameTime += dt;
+            if (this.nextFrameTime >= 1 / this.animFps) {
+                this.nextFrameTime = 0;
+                this.currentAnimFrame += 1;
+                if (this.currentAnimFrame > this.animRunningFrames.length - 1) {
+                    this.currentAnimFrame = 0;
+                }
             }
+        }
+        else if (this.playerState == this.playerStates.jumping) {
+            //up
+            if (this.velocity.y < 0) {
+                this.texture.frame = this.animJumpFrames[0];
+            }
+            //down
+            else if (this.velocity.y > 0) {
+                this.texture.frame = this.animJumpFrames[1];
+            }
+        }
+        else if(this.playerState == this.playerStates.crouching) {
+            this.texture.frame = this.crouchFrame;
         }
     }
 }

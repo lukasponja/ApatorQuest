@@ -44,12 +44,12 @@ function initAllRunningStageObjects() {
 
     player = new PlayerClass();
     runningStage.addChild(player.sprite);
-    player.setPosition(new PIXI.Point(100,200));
+    player.setPosition(new PIXI.Point(100, 200));
     runningStageDynamicObjects.push(player);
     collisionManager.mainCollisionLayer.push(player);
 
     //TODO: delete after test
-     addCollectable(new XenoClass());
+    addCollectable(new XenoClass());
     /*for (var i = 0; i < 5; i++) {
         addCollectable(new XenoClass());
 
@@ -58,6 +58,11 @@ function initAllRunningStageObjects() {
         runningStage.addChild(platform.sprite);
         collisionManager.otherCollisionLayer.push(platform);
     }*/
+    /*var platform = new PlatformClass()
+    platform.setPosition(new PIXI.Point(500, 347));
+    runningStage.addChild(platform.sprite);
+    collisionManager.otherCollisionLayer.push(platform);
+    runningStageDynamicObjects.push(platform);*/
 
     console.log('initAllRunningStageObjects');
 }
@@ -89,7 +94,7 @@ function manageCollectables() {
 
 function fillCollectables() {
     var max = getRandomInt(1, MAX_COLLECTABLES - collectables.length);
-    
+
     for (i = 0; i < max; i++) {
         let xeno = new XenoClass();
         addCollectable(xeno);
@@ -97,8 +102,8 @@ function fillCollectables() {
 }
 
 function addCollectable(coll) {
-        coll.setPosition(new PIXI.Point(getRandomInt(50, gameWidth - 50), getRandomInt(50, gameHeight - 50)));
-        runningStage.addChild(coll.sprite);
-        collisionManager.otherCollisionLayer.push(coll);
-        collectables.push(coll);
+    coll.setPosition(new PIXI.Point(getRandomInt(50, gameWidth - 50), getRandomInt(100, gameHeight - 100)));
+    runningStage.addChild(coll.sprite);
+    collisionManager.otherCollisionLayer.push(coll);
+    collectables.push(coll);
 }

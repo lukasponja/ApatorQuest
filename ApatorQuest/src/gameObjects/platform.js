@@ -14,4 +14,10 @@ function PlatformClass() {
     this.onCollision = function (other, info) {
 
     }
+
+    this.update = function (dt) {
+        this.position.x -= 200 * dt;
+        this.sprite.position.copy(this.position);
+        this.collider.setPosition(this.position);
+    }
 }
