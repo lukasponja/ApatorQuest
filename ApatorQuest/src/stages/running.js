@@ -6,6 +6,7 @@ var runningStage = new PIXI.Container();
 var runningStageDynamicObjects = [];
 var player = undefined;
 var collisionManager = new CollisionManagerClass();
+var gui;
 
 var collectables = [];
 const MAX_COLLECTABLES = 10;
@@ -20,6 +21,7 @@ function runningStateUpdate(dt) {
         updateRunningStageDynamicObjects(dt);
         collisionManager.checkForCollisions();
         manageCollectables();
+        gui.update(dt);
     }
 }
 
@@ -63,6 +65,9 @@ function initAllRunningStageObjects() {
     runningStage.addChild(platform.sprite);
     collisionManager.otherCollisionLayer.push(platform);
     runningStageDynamicObjects.push(platform);*/
+
+    gui = new GUI();
+    runningStage.addChild(gui.container);
 
     console.log('initAllRunningStageObjects');
 }

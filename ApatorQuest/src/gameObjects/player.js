@@ -11,6 +11,7 @@ function PlayerClass() {
     this.fowardSpeed = 150;
     this.crouchTime = 2;
     this.crouchTimer = 0;
+    this.energyLevel = 100;
 
     this.animRunningFrames = [
         new PIXI.Rectangle(0, 0, 87, 124),
@@ -25,9 +26,11 @@ function PlayerClass() {
         new PIXI.Rectangle(87, 124, 87, 130)
     ];
     this.crouchFrame = new PIXI.Rectangle(174, 124, 103, 100);
+    this.deadFrame = new PIXI.Rectangle(277, 124, 123, 71);
     this.currentAnimFrame = 0;
     this.animFps = 8;
     this.nextFrameTime = 0;
+
     this.playerStates = { running: 0, jumping: 1, crouching: 2, dead: 3 };
     this.playerState = this.playerStates.running;
 
@@ -36,65 +39,92 @@ function PlayerClass() {
     this.collider = new BoxCollider(this.sprite.width, this.sprite.height);
 
     this.update = function (dt) {
-        this.velocity.x = 0;
-        this.animFps = 8;
-        //check for floor
-        if (this.position.y > 367) {
-            this.position.y = 367;
-            this.isGrounded = true;
-            this.playerState = this.playerStates.running;
-            this.velocity.y = 0;
-        }
-
-        //jump
-        if (inputManagerUp.isDown) {
-            if (this.isGrounded) {
-                this.isGrounded = false;
-                this.velocity.y = -this.jumpImpulse;
-                this.playerState = this.playerStates.jumping;
+        if (this.playerState == this.playerStates.dead) {
+            //check for floor
+            if (this.position.y > 367+53) {
+                this.position.y = 367+53;
+                this.isGrounded = true;
+                this.velocity.y = 0;
             }
-        }
 
-        //coruch
-        if (inputManagerDown.isDown) {
-            if (this.isGrounded) {
-                this.playerState = this.playerStates.crouching;
-                 this.position.y += 24; //crouch sprite is 24px shorter
+            //apply gravity
+            if (!this.isGrounded) {
+                this.velocity.y += gameGravity * dt;
             }
+            this.isGrounded = false
         }
         else {
-            if(this.playerState == this.playerStates.crouching) {
+            this.velocity.x = 0;
+            this.animFps = 8;
+            //check for floor
+            if (this.position.y > 367) {
+                this.position.y = 367;
+                this.isGrounded = true;
                 this.playerState = this.playerStates.running;
-                this.position.y -= 24; //crouch sprite is 24px shorter
+                this.velocity.y = 0;
             }
-        }
 
-        //backwards
-        if (inputManagerLeft.isDown && inputManagerRight.isUp) {
-            if (this.isGrounded) {
-                this.velocity.x = -this.backwardSpeed * dt;
+            //jump
+            if (inputManagerUp.isDown) {
+                if (this.isGrounded) {
+                    this.isGrounded = false;
+                    this.velocity.y = -this.jumpImpulse;
+                    this.playerState = this.playerStates.jumping;
+                }
+            }
+
+            //coruch
+            if (inputManagerDown.isDown) {
+                if (this.isGrounded) {
+                    this.playerState = this.playerStates.crouching;
+                    this.position.y += 24; //crouch sprite is 24px shorter
+                }
             }
             else {
-                this.velocity.x = -(this.backwardSpeed / 4) * dt;
+                if (this.playerState == this.playerStates.crouching) {
+                    this.playerState = this.playerStates.running;
+                    this.position.y -= 24; //crouch sprite is 24px shorter
+                }
             }
-        }
 
-        //fowards
-        if (inputManagerRight.isDown && inputManagerLeft.isUp) {
-            if (this.isGrounded) {
-                this.velocity.x = this.fowardSpeed * dt;
+            //backwards
+            if (inputManagerLeft.isDown && inputManagerRight.isUp) {
+                if (this.isGrounded) {
+                    this.velocity.x = -this.backwardSpeed * dt;
+                }
+                else {
+                    this.velocity.x = -(this.backwardSpeed / 4) * dt;
+                }
+                this.animFps = 6;
             }
-            else {
-                this.velocity.x = (this.fowardSpeed / 4) * dt;
-            }
-            this.animFps = 15;
-        }
 
-        //apply gravity
-        if (!this.isGrounded) {
-            this.velocity.y += gameGravity * dt;
+            //fowards
+            if (inputManagerRight.isDown && inputManagerLeft.isUp) {
+                if (this.isGrounded) {
+                    this.velocity.x = this.fowardSpeed * dt;
+                }
+                else {
+                    this.velocity.x = (this.fowardSpeed / 4) * dt;
+                }
+                this.animFps = 15;
+            }
+
+            //apply gravity
+            if (!this.isGrounded) {
+                this.velocity.y += gameGravity * dt;
+            }
+            this.isGrounded = false
+            
+            //
+            this.energyLevel -= 0.05;
+            if (this.energyLevel < 0) {
+                this.energyLevel = 0;
+                this.playerState = this.playerStates.dead;
+                this.position.y += 53; //dead sprite is 53px shorter
+                this.velocity.x = -200 * dt;
+            }
+
         }
-        this.isGrounded = false
 
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
@@ -116,6 +146,10 @@ function PlayerClass() {
 
             //TODO: devare after test
             console.log("Item collected.")
+            this.energyLevel += 1.3;
+            if (this.energyLevel > 100) {
+                this.energyLevel = 100;
+            }
         }
         else if (other.tag == "Floor") {
             if (info.top && !info.left && !info.right) {
@@ -124,7 +158,7 @@ function PlayerClass() {
                 this.velocity.y = 0;
                 this.setPosition(new PIXI.Point(this.position.x, other.position.y - this.collider.height));
             }
-            else if (info.bottom  && !info.left && !info.right) {
+            else if (info.bottom && !info.left && !info.right) {
                 this.velocity.y = 0;
                 this.setPosition(new PIXI.Point(this.position.x, other.position.y + other.collider.height));
             }
@@ -163,8 +197,11 @@ function PlayerClass() {
                 this.texture.frame = this.animJumpFrames[1];
             }
         }
-        else if(this.playerState == this.playerStates.crouching) {
+        else if (this.playerState == this.playerStates.crouching) {
             this.texture.frame = this.crouchFrame;
+        }
+        else if (this.playerState == this.playerStates.dead) {
+            this.texture.frame = this.deadFrame;
         }
     }
 }

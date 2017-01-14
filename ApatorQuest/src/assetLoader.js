@@ -13,6 +13,7 @@ var gameTextures = {
     groundTexture: undefined,
     apatorTitleTexture: undefined,
     questTitleTexture: undefined,
+    lcdTexture: undefined,
 };
 var textureFrames = {
     floorFrame: new PIXI.Rectangle(2, 2, 62, 33),
@@ -23,6 +24,7 @@ var textureFrames = {
     groundFrame: new PIXI.Rectangle(2, 362, 241, 44),
     apatorTitleFrame: new PIXI.Rectangle(1, 66, 200, 86),
     questTitleFrame: new PIXI.Rectangle(1, 153, 248, 142),
+    lcdFrame: new PIXI.Rectangle(2, 407, 170, 76),
 };
 
 function getTextureFromFrame(newTexture, newFrame) {
@@ -47,6 +49,7 @@ function loadingDone() {
     gameTextures.groundTexture = getTextureFromFrame(atlasTexture, textureFrames.groundFrame);
     gameTextures.apatorTitleTexture = getTextureFromFrame(atlasTexture, textureFrames.apatorTitleFrame);
     gameTextures.questTitleTexture = getTextureFromFrame(atlasTexture, textureFrames.questTitleFrame);
+    gameTextures.lcdTexture = getTextureFromFrame(atlasTexture, textureFrames.lcdFrame);
 
     gameTextures.playerTexture = loader.resources[texturesToLoad[3]].texture;
     gameTextures.parallaxTexture = loader.resources[texturesToLoad[4]].texture;
