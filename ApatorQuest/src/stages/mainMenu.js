@@ -37,20 +37,6 @@ function mainMenuStateUpdate(dt) {
         mainMenuStageState = mainMenuStageStates.init;
         switchGameState(gameStates.running);
     }
-
-    // TODO: remove after test
-    if (inputManagerLeft.hold(1000)) {
-        console.log("left: ", inputManagerLeft.holdTime);
-    }
-    if (inputManagerUp.hold(1000)) {
-        console.log("up: ", inputManagerUp.holdTime);
-    }
-    if (inputManagerRight.hold(1000)) {
-        console.log("right: ", inputManagerRight.holdTime);
-    }
-    if (inputManagerDown.hold(1000)) {
-        console.log("down: ", inputManagerDown.holdTime);
-    }
 }
 
 function updateMainMenuDynamicObjects(dt) {
@@ -74,6 +60,13 @@ function initAllMainMenuObjects() {
     var highScoreText = new PIXI.Text("High Score", highScoreTextStyle);
     mainMenuStage.addChild(highScoreText);
     highScoreText.position.copy(gameObjectPositions.mainManuHighScoreTextPosition);
+
+    var apatorTitle = new PIXI.Sprite(gameTextures.apatorTitleTexture);
+    mainMenuStage.addChild(apatorTitle);
+    apatorTitle.position.copy(gameObjectPositions.mainManuApatorTitlePosition);
+    var apatorQuest = new PIXI.Sprite(gameTextures.questTitleTexture);
+    mainMenuStage.addChild(apatorQuest);
+    apatorQuest.position.copy(gameObjectPositions.mainManuQuestTitlePosition);
 
     mainMenuDynamicObjects = [];
     menuSelector = new menuSelectorClass();

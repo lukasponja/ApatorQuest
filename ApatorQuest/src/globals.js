@@ -22,4 +22,6 @@ var gameObjectPositions = {
   mainManuHighScoreTextPosition: new PIXI.Point(93, 464),
   mainManuArrowPlayPosition: new PIXI.Point(29, 384),
   mainManuArrowHighScorePosition: new PIXI.Point(29, 457),
+  mainManuApatorTitlePosition: new PIXI.Point(272, 1),
+  mainManuQuestTitlePosition: new PIXI.Point(322, 58),
 };

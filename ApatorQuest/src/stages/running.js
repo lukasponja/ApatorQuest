@@ -44,18 +44,20 @@ function initAllRunningStageObjects() {
 
     player = new PlayerClass();
     runningStage.addChild(player.sprite);
+    player.setPosition(new PIXI.Point(100,200));
     runningStageDynamicObjects.push(player);
     collisionManager.mainCollisionLayer.push(player);
 
-    //TODO: devare after test
-    for (var i = 0; i < 5; i++) {
+    //TODO: delete after test
+     addCollectable(new XenoClass());
+    /*for (var i = 0; i < 5; i++) {
         addCollectable(new XenoClass());
 
         var platform = new PlatformClass()
         platform.setPosition(new PIXI.Point(getRandomInt(50, gameWidth - 50), getRandomInt(200, gameHeight - 200)));
         runningStage.addChild(platform.sprite);
         collisionManager.otherCollisionLayer.push(platform);
-    }
+    }*/
 
     console.log('initAllRunningStageObjects');
 }

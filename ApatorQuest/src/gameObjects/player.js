@@ -7,7 +7,8 @@ function PlayerClass() {
     this.tag = "Player";
     this.isGrounded = false;
     this.jumpImpulse = 15;
-    this.horizontalSpeed = 350; //pixels per second
+    this.backwardSpeed = 350; //pixels per second
+    this.fowardSpeed = 150;
     this.animFrames = [
         new PIXI.Rectangle(0, 0, 87, 124),
         new PIXI.Rectangle(87, 0, 87, 124),
@@ -25,6 +26,7 @@ function PlayerClass() {
 
     this.update = function (dt) {
         this.velocity.x = 0;
+        this.animFps = 8;
         if (this.position.y > 367) {
             this.position.y = 367;
             this.isGrounded = true;
@@ -40,20 +42,21 @@ function PlayerClass() {
 
         if (inputManagerLeft.isDown && inputManagerRight.isUp) {
             if (this.isGrounded) {
-                this.velocity.x = -this.horizontalSpeed * dt;
+                this.velocity.x = -this.backwardSpeed * dt;
             }
             else {
-                this.velocity.x = -this.horizontalSpeed * dt / 2;
+                this.velocity.x = -(this.backwardSpeed / 2) * dt;
             }
 
         }
         if (inputManagerRight.isDown && inputManagerLeft.isUp) {
             if (this.isGrounded) {
-                this.velocity.x = this.horizontalSpeed * dt;
+                this.velocity.x = this.fowardSpeed * dt;
             }
             else {
-                this.velocity.x = this.horizontalSpeed * dt / 2;
+                this.velocity.x = (this.fowardSpeed / 2) * dt;
             }
+            this.animFps = 15;
         }
 
         if (!this.isGrounded) {
@@ -87,15 +90,7 @@ function PlayerClass() {
         this.sprite.position.copy(this.position);
         this.collider.setPosition(this.position);
 
-        this.texture.frame = this.animFrames[this.currentAnimFrame];
-        this.nextFrameTime += dt;
-        if (this.nextFrameTime >= 1 / this.animFps) {
-            this.nextFrameTime = 0;
-            this.currentAnimFrame += 1;
-            if (this.currentAnimFrame > this.animFrames.length - 1) {
-                this.currentAnimFrame = 0;
-            }
-        }
+        this.animate(dt);
     }
 
     this.setPosition = function (newPosition) {
@@ -130,6 +125,18 @@ function PlayerClass() {
                 this.setPosition(new PIXI.Point(other.position.x + other.collider.width, this.position.y));
             }
 
+        }
+    }
+
+    this.animate = function (dt) {
+        this.texture.frame = this.animFrames[this.currentAnimFrame];
+        this.nextFrameTime += dt;
+        if (this.nextFrameTime >= 1 / this.animFps) {
+            this.nextFrameTime = 0;
+            this.currentAnimFrame += 1;
+            if (this.currentAnimFrame > this.animFrames.length - 1) {
+                this.currentAnimFrame = 0;
+            }
         }
     }
 }
