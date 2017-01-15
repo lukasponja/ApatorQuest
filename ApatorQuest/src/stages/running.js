@@ -51,20 +51,7 @@ function initAllRunningStageObjects() {
     collisionManager.mainCollisionLayer.push(player);
 
     //TODO: delete after test
-    addCollectable(new XenoClass());
-    /*for (var i = 0; i < 5; i++) {
-        addCollectable(new XenoClass());
-
-        var platform = new PlatformClass()
-        platform.setPosition(new PIXI.Point(getRandomInt(50, gameWidth - 50), getRandomInt(200, gameHeight - 200)));
-        runningStage.addChild(platform.sprite);
-        collisionManager.otherCollisionLayer.push(platform);
-    }*/
-    /*var platform = new PlatformClass()
-    platform.setPosition(new PIXI.Point(500, 347));
-    runningStage.addChild(platform.sprite);
-    collisionManager.otherCollisionLayer.push(platform);
-    runningStageDynamicObjects.push(platform);*/
+    createCollectable(new XenoClass());
 
     gui = new GUI();
     runningStage.addChild(gui.container);
@@ -72,43 +59,40 @@ function initAllRunningStageObjects() {
     console.log('initAllRunningStageObjects');
 }
 
-var prevCollLenght = 0;
 function manageCollectables() {
-    var len = collectables.length;
-
-    for (var i = 0; i < len; i++) {
-        if (collectables[i].tag == "Ghost") {
-            collectables.splice(i, 1);
-        }
-        len = collectables.length;
-    }
-
-    if (prevCollLenght === len)
-        return;
-
-    if (len < MAX_COLLECTABLES) {
-        var rnd = getRandomInt(0, 100)
-        console.log(rnd);
-        if ((rnd % 5) === 0 || len === 0) {
-            fillCollectables();
-        }
-    }
-
-    prevCollLenght = len;
+    destroyPickedCollectables();
+    spawnCollectables();
+    moveCollectables();
 }
 
-function fillCollectables() {
-    var max = getRandomInt(1, MAX_COLLECTABLES - collectables.length);
-
-    for (i = 0; i < max; i++) {
-        let xeno = new XenoClass();
-        addCollectable(xeno);
-    }
-}
-
-function addCollectable(coll) {
-    coll.setPosition(new PIXI.Point(getRandomInt(50, gameWidth - 50), getRandomInt(100, gameHeight - 100)));
+function createCollectable(coll) {
+    coll.setPosition(new PIXI.Point(gameWidth + getRandomInt(0, 1500), getRandomInt(100, gameHeight - 100)));
     runningStage.addChild(coll.sprite);
     collisionManager.otherCollisionLayer.push(coll);
     collectables.push(coll);
+}
+
+function spawnCollectables() {
+    if (collectables.length < MAX_COLLECTABLES) {
+        for (i = 0; i < MAX_COLLECTABLES - collectables.length; i++) {
+            let xeno = new XenoClass();
+            createCollectable(xeno);
+        }
+    }
+}
+
+function destroyPickedCollectables() {
+    for (var i = 0; i < collectables.length; i++) {
+        if (collectables[i].tag == "Ghost") {
+            collectables.splice(i, 1);
+        }
+    }
+}
+
+function moveCollectables() {
+    for (var i = 0; i < collectables.length; i++) {
+        collectables[i].sprite.position.x--;
+        collectables[i].position.x--;
+        collectables[i].collider.setPosition(collectables[i].position);
+    }
 }
