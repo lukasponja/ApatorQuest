@@ -73,4 +73,8 @@ function initAllMainMenuObjects() {
     menuSelector.setPosition(gameObjectPositions.mainManuArrowPlayPosition);
     mainMenuStage.addChild(menuSelector.sprite);
     mainMenuDynamicObjects.push(menuSelector);
+
+    var testDialog = new DialogTextClass(new PIXI.Point(50,150),{width:220, height:60},"Test text for dialog... Need more text, hello.", 1);
+    mainMenuStage.addChild(testDialog.container);
+    mainMenuDynamicObjects.push(testDialog);
 }

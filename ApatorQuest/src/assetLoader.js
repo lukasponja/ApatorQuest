@@ -24,7 +24,7 @@ var textureFrames = {
     groundFrame: new PIXI.Rectangle(2, 362, 241, 44),
     apatorTitleFrame: new PIXI.Rectangle(1, 66, 200, 86),
     questTitleFrame: new PIXI.Rectangle(1, 153, 248, 142),
-    lcdFrame: new PIXI.Rectangle(2, 407, 170, 76),
+    lcdFrame: new PIXI.Rectangle(1, 407, 229, 104),
 };
 
 function getTextureFromFrame(newTexture, newFrame) {

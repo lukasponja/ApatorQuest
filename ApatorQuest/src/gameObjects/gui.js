@@ -3,18 +3,14 @@ function GUI() {
     this.lcd = new PIXI.Sprite(gameTextures.lcdTexture);
     this.container.addChild(this.lcd);
     this.style = {
-        //fontFamily: 'Renegade Mistress',
-        fontSize: '14px',
-        fill: '#000000',
+        fontFamily: 'RenegadeMistress',
+        fontSize: '24px'
     };
-    this.batText = new PIXI.Text('Bat: 100%', this.style);
-    this.batText.position.set(25, 23);
+    this.batText = new PIXI.Text('bat: 100%', this.style);
+    this.batText.position.set(28, 38);
     this.container.addChild(this.batText);
-    this.tempText = new PIXI.Text('Temp: 23.2*C', this.style);
-    this.tempText.position.set(25, 37);
-    this.container.addChild(this.tempText);
 
     this.update = function (dt) {
-        this.batText.text = 'Bat: ' + player.energyLevel.toFixed(2) + '%';
+        this.batText.text = 'bat: ' + player.energyLevel.toFixed(2) + '%';
     }
 }
