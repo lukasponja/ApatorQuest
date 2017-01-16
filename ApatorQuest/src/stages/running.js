@@ -6,7 +6,7 @@ var runningStage = new PIXI.Container();
 var runningStageDynamicObjects = [];
 var player = undefined;
 var collisionManager = new CollisionManagerClass();
-var collectablesManager = new CollectablesManager(collisionManager, runningStage);
+var collectablesManager = new CollectablesManager(collisionManager, runningStage, 10, 5);
 var gui;
 
 

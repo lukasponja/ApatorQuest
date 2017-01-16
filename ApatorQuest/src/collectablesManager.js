@@ -1,15 +1,15 @@
-var collectablesSpeed = 5;
-const MAX_COLLECTABLES = 10;
-
 /* 
  * CollectablesManager manages collectable items in the stage.
- * It requires collision manager and stage objects to be passed in.
+ * It requires collision manager and stage objects to be passed in
+ * as well as maximum number of collectables and their initial speed.
  *
  */
-function CollectablesManager(collisionManager, stage) {
+function CollectablesManager(collisionManager, stage, max, speed) {
     this.collMgr = collisionManager;
     this.stage = stage;
     this.collectables = [];
+    this.speed = speed;
+    this.max = max;
 
     // creates a single collectable outside of the visible stage area
     this.createCollectable = function(coll) {
@@ -22,18 +22,19 @@ function CollectablesManager(collisionManager, stage) {
 
     // adds missing collectables (if any)
     this.spawnCollectables = function() {
-        if (this.collectables.length < MAX_COLLECTABLES) {
-            for (i = 0; i < MAX_COLLECTABLES - this.collectables.length; i++) {
+        var diff = this.max - this.collectables.length; 
+        if (diff > 0) {
+            for (i = 0; i < diff; i++) {
                 let xeno = new XenoClass();
                 this.createCollectable(xeno);
             }
         }
     };
 
-    // destroyes picked up collectables
+    // destroyes picked up collectables or the ones that have passed the container borders
     this.destroyPickedCollectables = function() {
         for (var i = 0; i < this.collectables.length; i++) {
-            if (this.collectables[i].tag == "Ghost" || this.collectables[i].x < -100) {
+            if (this.collectables[i].tag == "Ghost" || this.collectables[i].position.x < -100) {
                 this.collectables.splice(i, 1);
             }
         }
@@ -42,7 +43,7 @@ function CollectablesManager(collisionManager, stage) {
     // moves collectables across the stage
     this.moveCollectables = function() {
         for (var i = 0; i < this.collectables.length; i++) {
-            var p = new PIXI.Point(this.collectables[i].position.x - collectablesSpeed,
+            var p = new PIXI.Point(this.collectables[i].position.x - this.speed,
                     this.collectables[i].position.y);
             this.collectables[i].setPosition(p);
         }
@@ -53,6 +54,22 @@ function CollectablesManager(collisionManager, stage) {
         this.destroyPickedCollectables();
         this.spawnCollectables();
         this.moveCollectables();
+    };
+
+    this.getSpeed = function() {
+        return this.speed;
+    };
+
+    this.getMaxCollectables = function() {
+        return this.max;
+    };
+
+    this.setSpeed = function(speed) {
+        this.speed = speed;
+    };
+
+    this.setMaxCollectables = function(max) {
+        this.max = max;
     };
 }
 
