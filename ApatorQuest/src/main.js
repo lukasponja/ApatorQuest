@@ -1,5 +1,4 @@
 console.log('ApatorQuest');
-
 var gameState = gameStates.loading;
 var lastUpdate = 0;
 
@@ -33,6 +32,22 @@ function switchGameState(newState) {
   }
 }
 
+function exitGame() {
+    switchGameState(gameStates.menu);
+}
+
+function resetGame() {
+
+}
+
+function pauseGame() {
+    switchGameState(gameStates.paused);
+}
+
+function resumeGame() {
+    switchGameState(gameStates.running);
+}
+
 function gameLoop() {
   var now = Date.now();
   var dt = now - lastUpdate;
@@ -46,10 +61,32 @@ function gameLoop() {
     mainMenuStateUpdate(dt);
   }
   else if (gameState == gameStates.running) {
+    //if (inputManagerEsc.isDown) {
+    if (inputEvent(inputManagerEsc)) {
+        // ask for exit
+        // if (confirmExit()) {
+        //     pauseGame();
+        //     exitGame();
+        // }        
+        
+        // for now just exit to the main menu
+        //exitGame();
+        pauseGame();
+        forgetInput();
+    }
     runningStateUpdate(dt);
+
+    // Call forget input here?
+    // All that needs to be done with input processing should be done before this point?
+    // forgetInput();
   }
   else if (gameState == gameStates.paused) {
-
+    if (inputEvent(inputManagerRight)) {
+        resumeGame();
+    } else if (inputEvent(inputManagerEsc)) {
+        exitGame();
+        forgetInput();
+    }
   }
   else if (gameState == gameStates.gameOver) {
 
@@ -68,7 +105,3 @@ function gameLoop() {
 switchGameState(gameStates.loading);
 //Start the game loop
 gameLoop();
-
-
-
-
