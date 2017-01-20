@@ -11,10 +11,9 @@ function CollectablesManager(collisionManager, stage, max, speed) {
     this.speed = speed;
     this.max = max;
 
-    // creates a single collectable outside of the visible stage area
-    this.createCollectable = function(coll) {
-        coll.setPosition(new PIXI.Point(gameWidth + getRandomInt(200, 1500),
-                getRandomInt(100, gameHeight - 100)));
+    // creates a single collectable and a sprite to the screen
+    this.createCollectable = function(coll, x, y) {
+        coll.setPosition(new PIXI.Point(x, y));
         this.stage.addChild(coll.sprite);
         this.collMgr.otherCollisionLayer.push(coll);
         this.collectables.push(coll);
@@ -25,8 +24,16 @@ function CollectablesManager(collisionManager, stage, max, speed) {
         var diff = this.max - this.collectables.length; 
         if (diff > 0) {
             for (i = 0; i < diff; i++) {
+                var x;
+                if (this.collectables.length == 0) {
+                    x = gameWidth;
+                } else {
+                    x = this.collectables[this.collectables.length - 1].position.x;
+                    x += 200;
+                }
+                var y = getRandomInt(3, 8);
                 let xeno = new XenoClass();
-                this.createCollectable(xeno);
+                this.createCollectable(xeno, x, y*xeno.sprite.height);
             }
         }
     };
@@ -34,7 +41,7 @@ function CollectablesManager(collisionManager, stage, max, speed) {
     // destroyes picked up collectables or the ones that have passed the container borders
     this.destroyPickedCollectables = function() {
         for (var i = 0; i < this.collectables.length; i++) {
-            if (this.collectables[i].tag == "Ghost" || this.collectables[i].position.x < -100) {
+            if (this.collectables[i].tag == "Ghost" || this.collectables[i].position.x < -200) {
                 this.collectables.splice(i, 1);
             }
         }
