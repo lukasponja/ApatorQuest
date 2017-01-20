@@ -3,8 +3,7 @@ console.log('ApatorQuest');
 var gameState = gameStates.loading;
 var lastUpdate = 0;
 
-var renderer = PIXI.autoDetectRenderer(gameWidth, gameHeight,
-  { backgroundColor: 0x0f478b });
+var renderer = PIXI.autoDetectRenderer(gameWidth, gameHeight);
 document.body.appendChild(renderer.view);
 
 var stageToRender = new PIXI.Container();
