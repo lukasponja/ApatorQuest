@@ -7,6 +7,7 @@ var renderer = PIXI.autoDetectRenderer(gameWidth, gameHeight);
 document.body.appendChild(renderer.view);
 
 var stageToRender = new PIXI.Container();
+var soundManager = new SoundManagerClass();
 
 function switchGameState(newState) {
   gameState = newState;

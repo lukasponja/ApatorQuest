@@ -16,5 +16,24 @@ function CollisionManagerClass() {
                 }
             }
         }
+
+        /*for (var mainIndex = 0; mainIndex < this.mainCollisionLayer.length; mainIndex++) {
+            for (var otherIndex = 0; otherIndex < this.otherCollisionLayer.length; otherIndex++) {
+                if (this.otherCollisionLayer[otherIndex].tag == "Ghost") {
+                    this.otherCollisionLayer.splice(otherIndex, 1);
+                }
+                else {
+                    if (BoxCollider.prototype.checkCollision(this.mainCollisionLayer[mainIndex].collider,
+                        this.otherCollisionLayer[otherIndex].collider)) {
+                        this.mainCollisionLayer[mainIndex].onCollision(this.otherCollisionLayer[otherIndex],
+                            BoxCollider.prototype.getCollisionInfo(this.mainCollisionLayer[mainIndex].collider,
+                                this.otherCollisionLayer[otherIndex].collider));
+                        this.otherCollisionLayer[otherIndex].onCollision(this.mainCollisionLayer[mainIndex],
+                            BoxCollider.prototype.getCollisionInfo(this.mainCollisionLayer[mainIndex].collider,
+                                this.otherCollisionLayer[otherIndex].collider));
+                    }
+                }
+            }
+        }*/
     }
 }

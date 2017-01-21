@@ -48,19 +48,19 @@ function CollectablesManager(collisionManager, stage, max, speed) {
     };
 
     // moves collectables across the stage
-    this.moveCollectables = function() {
+    this.moveCollectables = function(dt) {
         for (var i = 0; i < this.collectables.length; i++) {
-            var p = new PIXI.Point(this.collectables[i].position.x - this.speed,
+            var p = new PIXI.Point(this.collectables[i].position.x - this.speed*dt,
                     this.collectables[i].position.y);
             this.collectables[i].setPosition(p);
         }
     };
 
     // manages collectables
-    this.manageCollectables = function() {
+    this.manageCollectables = function(dt) {
         this.destroyPickedCollectables();
         this.spawnCollectables();
-        this.moveCollectables();
+        this.moveCollectables(dt);
     };
 
     this.getSpeed = function() {

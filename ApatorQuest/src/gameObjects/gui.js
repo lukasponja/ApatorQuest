@@ -9,8 +9,13 @@ function GUI() {
     this.batText = new PIXI.Text('bat: 100%', this.style);
     this.batText.position.set(28, 38);
     this.container.addChild(this.batText);
-
+    this.refreshRate = 4;
+    this.frameCounter = 0;
     this.update = function (dt) {
-        this.batText.text = 'bat: ' + player.energyLevel.toFixed(2) + '%';
+        this.frameCounter++;
+        if (this.frameCounter >= this.refreshRate) {
+            this.frameCounter = 0;
+            this.batText.text = 'bat: ' + player.energyLevel.toFixed(2) + '%';
+        }
     }
 }

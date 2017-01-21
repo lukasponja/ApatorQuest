@@ -145,8 +145,9 @@ function PlayerClass() {
         if (other.tag == "Item") {
 
             //TODO: devare after test
-            console.log("Item collected.")
+            //console.log("Item collected.")
             this.energyLevel += 1.3;
+            soundManager.playSound(soundManager.sounds.pickUpSound);
             if (this.energyLevel > 100) {
                 this.energyLevel = 100;
             }

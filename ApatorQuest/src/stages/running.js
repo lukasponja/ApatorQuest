@@ -6,7 +6,7 @@ var runningStage = new PIXI.Container();
 var runningStageDynamicObjects = [];
 var player = undefined;
 var collisionManager = new CollisionManagerClass();
-var collectablesManager = new CollectablesManager(collisionManager, runningStage, 10, 5);
+var collectablesManager = new CollectablesManager(collisionManager, runningStage, 10, 200);
 var gui;
 
 
@@ -14,11 +14,13 @@ function runningStateUpdate(dt) {
     if (runningStageState == runningStageStates.init) {
         initAllRunningStageObjects();
         runningStageState = runningStageStates.running;
+        soundManager.playSound(soundManager.sounds.backgroundMusic);
+        //soundManager.setVolume(soundManager.sounds.backgroundMusic, 0.2);
     }
     else if (runningStageState == runningStageStates.running) {
         updateRunningStageDynamicObjects(dt);
         collisionManager.checkForCollisions();
-        collectablesManager.manageCollectables();
+        collectablesManager.manageCollectables(dt);
         gui.update(dt);
     }
 }
