@@ -14,6 +14,11 @@ var gameTextures = {
     apatorTitleTexture: undefined,
     questTitleTexture: undefined,
     lcdTexture: undefined,
+    //dinRailTexture: undefined,
+    boxTexture: undefined,
+    spikesUpTexture: undefined,
+    spikesDownTexture: undefined,
+    spikesLeftTexture: undefined,
 };
 var textureFrames = {
     floorFrame: new PIXI.Rectangle(2, 2, 62, 33),
@@ -25,6 +30,11 @@ var textureFrames = {
     apatorTitleFrame: new PIXI.Rectangle(1, 66, 200, 86),
     questTitleFrame: new PIXI.Rectangle(1, 153, 248, 142),
     lcdFrame: new PIXI.Rectangle(1, 407, 229, 104),
+    //dinRailFrame: new PIXI.Rectangle(67, 316, 124, 44),
+    boxFrame: new PIXI.Rectangle(236, 1, 86, 86),
+    spikesUpFrame: new PIXI.Rectangle(323, 1, 85, 57),
+    spikesDownFrame: new PIXI.Rectangle(232, 59, 85, 57),
+    spikesLeftFrame: new PIXI.Rectangle(409, 1, 58, 85),
 };
 
 function getTextureFromFrame(newTexture, newFrame) {
@@ -50,6 +60,11 @@ function loadingDone() {
     gameTextures.apatorTitleTexture = getTextureFromFrame(atlasTexture, textureFrames.apatorTitleFrame);
     gameTextures.questTitleTexture = getTextureFromFrame(atlasTexture, textureFrames.questTitleFrame);
     gameTextures.lcdTexture = getTextureFromFrame(atlasTexture, textureFrames.lcdFrame);
+    //gameTextures.dinRailTexture = getTextureFromFrame(atlasTexture, textureFrames.dinRailFrame);
+    gameTextures.boxTexture = getTextureFromFrame(atlasTexture, textureFrames.boxFrame);
+    gameTextures.spikesUpTexture = getTextureFromFrame(atlasTexture, textureFrames.spikesUpFrame);
+    gameTextures.spikesDownTexture = getTextureFromFrame(atlasTexture, textureFrames.spikesDownFrame);
+    gameTextures.spikesLeftTexture = getTextureFromFrame(atlasTexture, textureFrames.spikesLeftFrame);
 
     gameTextures.playerTexture = loader.resources[texturesToLoad[3]].texture;
     gameTextures.parallaxTexture = loader.resources[texturesToLoad[4]].texture;

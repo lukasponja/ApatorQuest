@@ -12,11 +12,15 @@ function BackgroundClass() {
     this.container.addChild(this.groundSprite);
 
     this.position = new PIXI.Point();
-    this.speed = 10;
+    this.speed = 200;
 
     this.update = function (dt) {
-        this.backgroundSprite.tilePosition.x -= this.speed * dt;
-        this.parallaxSprite.tilePosition.x -= this.speed * 3 * dt;
-        this.groundSprite.tilePosition.x -= this.speed * 20 * dt;
+        this.backgroundSprite.tilePosition.x -= (this.speed / 20) * dt;
+        this.parallaxSprite.tilePosition.x -= (this.speed / 6) * dt;
+        this.groundSprite.tilePosition.x -= this.speed * dt;
+    }
+
+    this.setSpeed = function (newSpeed) {
+        this.speed = newSpeed;
     }
 }

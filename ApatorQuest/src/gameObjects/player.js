@@ -41,8 +41,8 @@ function PlayerClass() {
     this.update = function (dt) {
         if (this.playerState == this.playerStates.dead) {
             //check for floor
-            if (this.position.y > 367+53) {
-                this.position.y = 367+53;
+            if (this.position.y > 367 + 53) {
+                this.position.y = 367 + 53;
                 this.isGrounded = true;
                 this.velocity.y = 0;
             }
@@ -56,6 +56,7 @@ function PlayerClass() {
         else {
             this.velocity.x = 0;
             this.animFps = 8;
+            changeRunningSpeed(0);
             //check for floor
             if (this.position.y > 367) {
                 this.position.y = 367;
@@ -107,6 +108,7 @@ function PlayerClass() {
                     this.velocity.x = (this.fowardSpeed / 4) * dt;
                 }
                 this.animFps = 15;
+                changeRunningSpeed(50);
             }
 
             //apply gravity
@@ -114,7 +116,7 @@ function PlayerClass() {
                 this.velocity.y += gameGravity * dt;
             }
             this.isGrounded = false
-            
+
             //
             this.energyLevel -= 0.05;
             if (this.energyLevel < 0) {

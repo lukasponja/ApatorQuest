@@ -8,6 +8,14 @@ var player = undefined;
 var collisionManager = new CollisionManagerClass();
 var collectablesManager = new CollectablesManager(collisionManager, runningStage, 10, 200);
 var gui;
+var background;
+var runningSpeed = 200;
+var levelTimer = 0;
+var noiseFilter = new PIXI.filters.NoiseFilter();
+var blurFilter = new PIXI.filters.BlurFilter();
+var fxaaFilter = new PIXI.filters.FXAAFilter();
+var voidFilter = new PIXI.filters.VoidFilter();
+runningStage.filters= [noiseFilter];
 
 
 function runningStateUpdate(dt) {
@@ -22,6 +30,16 @@ function runningStateUpdate(dt) {
         collisionManager.checkForCollisions();
         collectablesManager.manageCollectables(dt);
         gui.update(dt);
+
+    }
+
+    levelTimer += dt;
+    if (levelTimer > 1) {
+        levelTimer = 0;
+        if (runningSpeed < 800) {
+            runningSpeed += 2;
+        }
+        //console.log(runningSpeed);
     }
 }
 
@@ -40,7 +58,7 @@ function initAllRunningStageObjects() {
     runningStage.removeChildren();
     runningStageDynamicObjects = [];
 
-    var background = new BackgroundClass();
+    background = new BackgroundClass();
     runningStage.addChild(background.container);
     runningStageDynamicObjects.push(background);
 
@@ -54,4 +72,9 @@ function initAllRunningStageObjects() {
     runningStage.addChild(gui.container);
 
     console.log('initAllRunningStageObjects');
+}
+
+function changeRunningSpeed(newDeltaSpeed) {
+    background.setSpeed(runningSpeed + newDeltaSpeed);
+    collectablesManager.setSpeed(runningSpeed + newDeltaSpeed);
 }
