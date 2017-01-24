@@ -6,7 +6,7 @@ var runningStage = new PIXI.Container();
 var runningStageDynamicObjects = [];
 var player = undefined;
 var collisionManager = new CollisionManagerClass();
-var collectablesManager = new CollectablesManager(collisionManager, runningStage, 10, 200);
+var creationMachine = new CreationEngine(collisionManager, runningStage, 10, 200);
 var gui;
 var background;
 var runningSpeed = 200;
@@ -28,7 +28,7 @@ function runningStateUpdate(dt) {
     else if (runningStageState == runningStageStates.running) {
         updateRunningStageDynamicObjects(dt);
         collisionManager.checkForCollisions();
-        collectablesManager.manageCollectables(dt);
+        creationMachine.run(dt);
         gui.update(dt);
 
     }
@@ -76,5 +76,5 @@ function initAllRunningStageObjects() {
 
 function changeRunningSpeed(newDeltaSpeed) {
     background.setSpeed(runningSpeed + newDeltaSpeed);
-    collectablesManager.setSpeed(runningSpeed + newDeltaSpeed);
+    creationMachine.setObjectsSpeed(runningSpeed + newDeltaSpeed);
 }

@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <title>Apator Quest</title>
@@ -19,16 +19,20 @@
 		}
 		#bottomText {
 			position: absolute;
-			margin-top: 600px;
+			margin-top: 500px;
 			color: white;
 			font-size: 50px;
 			font-style: italic;
+		}
+		#signature {
+			float: right;
 		}
 	</style>
 </head>
 <body>
 	<div id="bottomText">
-		"Can one man do what no man has done before?"
+		<p>Can one man do what no man has done before?</p>
+		<p id="signature">- Appator Quest</p>
 	</div>
 	<script src="src/lib/pixi.min.js"></script>
 	<script src="src/lib/howler.js"></script>
@@ -42,7 +46,7 @@
 	<script src="src/assetLoader.js"></script>
 	<script src="src/inputManager.js"></script>
 	<script src="src/collisionManager.js"></script>
-	<script src="src/collectablesManager.js"></script>
+	<script src="src/creationEngine.js"></script>
 	<script src="src/soundManager.js"></script>
 
 	<script src="src/gameObjects/menuSelector.js"></script>
