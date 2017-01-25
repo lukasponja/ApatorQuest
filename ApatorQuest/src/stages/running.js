@@ -15,7 +15,7 @@ var noiseFilter = new PIXI.filters.NoiseFilter();
 var blurFilter = new PIXI.filters.BlurFilter();
 var fxaaFilter = new PIXI.filters.FXAAFilter();
 var voidFilter = new PIXI.filters.VoidFilter();
-runningStage.filters= [noiseFilter];
+//runningStage.filters= [noiseFilter];
 
 
 function runningStateUpdate(dt) {
